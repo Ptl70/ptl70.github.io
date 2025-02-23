@@ -49,6 +49,18 @@
             box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1);
         }
 
+        /* Search Bar */
+        .search-bar {
+            margin-bottom: 20px;
+        }
+        .search-bar input {
+            width: 80%;
+            padding: 10px;
+            font-size: 16px;
+            border: 2px solid #ff8a00;
+            border-radius: 5px;
+        }
+
         /* Blog Cards */
         .blog-list {
             list-style: none;
@@ -90,6 +102,11 @@
             color: #666;
             margin-top: 5px;
         }
+        .blog-date {
+            font-size: 12px;
+            color: #888;
+            margin-top: 5px;
+        }
 
         /* Footer */
         .footer {
@@ -106,6 +123,23 @@
             text-decoration: none;
         }
     </style>
+    <script>
+        function searchPosts() {
+            let input = document.getElementById('search').value.toLowerCase();
+            let posts = document.getElementsByClassName('blog-item');
+
+            for (let i = 0; i < posts.length; i++) {
+                let title = posts[i].getElementsByClassName('blog-title')[0].innerText.toLowerCase();
+                let subtitle = posts[i].getElementsByClassName('blog-subtitle')[0].innerText.toLowerCase();
+
+                if (title.includes(input) || subtitle.includes(input)) {
+                    posts[i].style.display = "block";
+                } else {
+                    posts[i].style.display = "none";
+                }
+            }
+        }
+    </script>
 </head>
 <body>
 
@@ -120,40 +154,52 @@
     <!-- Main Content -->
     <div class="container">
         <h1>All Blog Posts</h1>
+
+        <!-- Search Bar -->
+        <div class="search-bar">
+            <input type="text" id="search" onkeyup="searchPosts()" placeholder="Search posts...">
+        </div>
+
+        <!-- Blog List -->
         <ul class="blog-list">
-            <li>
+            <li class="blog-item">
                 <img src="../assets/images/post1.jpg" alt="Post 1">
                 <div class="blog-content">
                     <a href="post1.html" class="blog-title">Post Title 1</a>
                     <p class="blog-subtitle">A brief description of this post.</p>
+                    <p class="blog-date">Published on: Jan 10, 2025</p>
                 </div>
             </li>
-            <li>
+            <li class="blog-item">
                 <img src="../assets/images/post2.jpg" alt="Post 2">
                 <div class="blog-content">
                     <a href="post2.html" class="blog-title">Post Title 2</a>
                     <p class="blog-subtitle">Another exciting topic to explore.</p>
+                    <p class="blog-date">Published on: Feb 5, 2025</p>
                 </div>
             </li>
-            <li>
+            <li class="blog-item">
                 <img src="../assets/images/post3.jpg" alt="Post 3">
                 <div class="blog-content">
                     <a href="post3.html" class="blog-title">Post Title 3</a>
                     <p class="blog-subtitle">An interesting story to read.</p>
+                    <p class="blog-date">Published on: Mar 15, 2025</p>
                 </div>
             </li>
-            <li>
+            <li class="blog-item">
                 <img src="../assets/images/post4.jpg" alt="Post 4">
                 <div class="blog-content">
                     <a href="post4.html" class="blog-title">Post Title 4</a>
                     <p class="blog-subtitle">Something you might find useful.</p>
+                    <p class="blog-date">Published on: Apr 8, 2025</p>
                 </div>
             </li>
-            <li>
+            <li class="blog-item">
                 <img src="../assets/images/post5.jpg" alt="Post 5">
                 <div class="blog-content">
                     <a href="post5.html" class="blog-title">Post Title 5</a>
                     <p class="blog-subtitle">Another great topic to check out.</p>
+                    <p class="blog-date">Published on: May 2, 2025</p>
                 </div>
             </li>
         </ul>
