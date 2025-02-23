@@ -3,125 +3,161 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Personal Website</title>
+    <title>My Blog</title>
     <style>
-        /* Global Styles */
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background: black;
-            color: #0ff;
+        body { 
+            font-family: Arial, sans-serif; 
+            margin: 0; 
+            padding: 0; 
+            background-color: #f4f4f4; 
             text-align: center;
-            overflow-x: hidden;
+            scroll-behavior: smooth;
         }
 
-        /* Neon Glow Effect */
-        h1, h2, h3 {
-            text-shadow: 0 0 10px #0ff, 0 0 20px #0ff;
+        /* Navigation Bar */
+        .navbar {
+            background-color: #333;
+            padding: 15px;
+            text-align: center;
+            position: sticky;
+            top: 0;
+            width: 100%;
+            z-index: 100;
         }
-
-        /* Header */
-        header {
-            background: rgba(0, 0, 0, 0.8);
-            padding: 20px;
-            font-size: 24px;
-        }
-
-        /* Navigation */
-        nav {
-            margin: 20px;
-        }
-        nav a {
-            margin: 15px;
+        .navbar a {
+            color: white;
             text-decoration: none;
-            color: #0ff;
+            margin: 0 15px;
             font-size: 18px;
-            transition: 0.3s;
+            transition: color 0.3s ease-in-out;
         }
-        nav a:hover {
-            color: #f0f;
-            text-shadow: 0 0 15px #f0f;
+        .navbar a:hover {
+            color: #f4a261;
         }
 
-        /* Section Styling */
-        section {
-            padding: 30px;
-            margin: 20px auto;
+        /* Banner Image with Zoom-in Animation */
+        .banner img {
+            width: 100%;
+            max-height: 300px;
+            object-fit: cover;
+            animation: fadeIn 1.5s ease-in-out, zoomIn 2s ease-in-out;
+        }
+
+        /* Main Container */
+        .container {
             max-width: 800px;
-            background: rgba(0, 0, 0, 0.5);
-            border-radius: 10px;
-            box-shadow: 0 0 15px #0ff;
-            animation: fadeIn 1s ease-in-out;
+            margin: 30px auto;
+            padding: 20px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            animation: fadeInUp 1s ease-in-out;
         }
 
-        /* Button Styles */
-        .button {
-            display: inline-block;
-            padding: 10px 20px;
-            margin-top: 10px;
-            background: #0ff;
-            color: black;
-            font-size: 18px;
-            text-decoration: none;
-            border-radius: 5px;
-            transition: 0.3s;
+        /* Recommended Posts */
+        .recommendations {
+            list-style: none;
+            padding: 0;
         }
-        .button:hover {
-            background: #f0f;
-            box-shadow: 0 0 20px #f0f;
+        .recommendations li {
+            margin: 15px 0;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            transition: transform 0.3s ease-in-out;
+        }
+        .recommendations img {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 5px;
+            transition: transform 0.3s ease-in-out;
+        }
+        .recommendations a {
+            text-decoration: none;
+            color: #007bff;
+            font-size: 18px;
+            transition: color 0.3s ease-in-out;
+        }
+        .recommendations li:hover {
+            transform: scale(1.05);
+        }
+        .recommendations li:hover img {
+            transform: scale(1.1);
+        }
+        .recommendations li:hover a {
+            color: #f4a261;
         }
 
         /* Footer */
-        footer {
-            background: rgba(0, 0, 0, 0.8);
-            padding: 15px;
+        .footer {
             margin-top: 20px;
             font-size: 14px;
-            box-shadow: 0 0 15px #0ff;
+            padding: 15px;
+            background-color: #333;
+            color: white;
+            animation: fadeIn 1.5s ease-in-out;
+        }
+        .footer a {
+            color: #f4a261;
+            text-decoration: none;
         }
 
-        /* Animations */
+        /* Keyframe Animations */
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-20px); }
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes zoomIn {
+            from { transform: scale(1); }
+            to { transform: scale(1.05); }
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
         }
     </style>
 </head>
 <body>
-    <header>
-        <h1>Welcome to My Neon Website</h1>
-    </header>
 
-    <nav>
+    <!-- Navigation Bar -->
+    <div class="navbar">
         <a href="index.html">Home</a>
-        <a href="blog.html">Blog</a>
-        <a href="#" onclick="accessPortfolio()">Portfolio</a>
+        <a href="posts/index.html">All Posts</a>
+        <a href="about.html">About</a>
         <a href="contact.html">Contact</a>
-    </nav>
+    </div>
 
-    <section>
-        <h2>Latest Blog Posts</h2>
-        <div class="blog-post">
-            <h3>Sample Blog Post</h3>
-            <p>This is an example blog post. Click below to read more.</p>
-            <a href="blog.html" class="button">Read More</a>
-        </div>
-    </section>
+    <!-- Banner Image -->
+    <div class="banner">
+        <img src="assets/images/blog-banner.jpg" alt="Blog Banner">
+    </div>
 
-    <footer>
-        <p>&copy; 2025 My Neon Website | <a href="#">Twitter</a> | <a href="#">LinkedIn</a></p>
-    </footer>
+    <div class="container">
+        <h1>Welcome to My Blog</h1>
+        <p>This is my personal space where I share thoughts, experiences, and knowledge. Feel free to explore my posts and enjoy the journey!</p>
 
-    <script>
-        function accessPortfolio() {
-            var password = prompt("Enter password to access portfolio:");
-            if (password === "18989") {
-                window.location.href = "portfolio.html";
-            } else {
-                alert("Incorrect password!");
-            }
-        }
-    </script>
+        <h2>Recommended Reads</h2>
+        <ul class="recommendations">
+            <li>
+                <img src="assets/images/post1.jpg" alt="Post 1">
+                <a href="posts/post1.html">Post Title 1</a>
+            </li>
+            <li>
+                <img src="assets/images/post2.jpg" alt="Post 2">
+                <a href="posts/post2.html">Post Title 2</a>
+            </li>
+            <!-- Add more recommended posts manually -->
+        </ul>
+
+        <p><a href="posts/index.html">View All Posts</a></p>
+    </div>
+
+    <div class="footer">
+        <p>&copy; 2025 My Blog | <a href="about.html">About</a> | <a href="contact.html">Contact</a></p>
+    </div>
+
 </body>
 </html>
