@@ -134,6 +134,174 @@
     <div class="banner">
         <img src="assets/images/blog-banner.jpg" alt="Blog Banner">
     </div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Blog</title>
+    <style>
+        /* Global Styles */
+        body { 
+            font-family: Arial, sans-serif; 
+            margin: 0; 
+            padding: 0; 
+            background-color: #f4f4f4; 
+            text-align: center;
+            scroll-behavior: smooth;
+        }
+
+        /* Navigation Bar */
+        .navbar {
+            background: linear-gradient(90deg, #ff8a00, #da1b60);
+            padding: 15px;
+            text-align: center;
+            position: sticky;
+            top: 0;
+            width: 100%;
+            z-index: 100;
+            transition: background 0.3s ease-in-out;
+        }
+        .navbar a {
+            color: white;
+            text-decoration: none;
+            margin: 0 20px;
+            font-size: 18px;
+            transition: color 0.3s ease-in-out;
+        }
+        .navbar a:hover {
+            color: #fdd835;
+        }
+
+        /* Banner Image */
+        .banner img {
+            width: 100%;
+            max-height: 350px;
+            object-fit: cover;
+            animation: fadeIn 1.5s ease-in-out;
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 25px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1);
+            animation: fadeInUp 1s ease-in-out;
+        }
+
+        /* Recommended Posts */
+        .recommendations {
+            list-style: none;
+            padding: 0;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+        }
+        .recommendations li {
+            width: 260px;
+            background: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+        }
+        .recommendations li:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+        .recommendations img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+        }
+        .recommendations a {
+            display: block;
+            padding: 15px;
+            text-decoration: none;
+            font-size: 18px;
+            color: #333;
+            font-weight: bold;
+            transition: color 0.3s ease-in-out;
+        }
+        .recommendations a:hover {
+            color: #ff8a00;
+        }
+
+        /* Footer */
+        .footer {
+            margin-top: 30px;
+            font-size: 14px;
+            padding: 20px;
+            background-color: #333;
+            color: white;
+            animation: fadeIn 1.5s ease-in-out;
+        }
+        .footer a {
+            color: #fdd835;
+            text-decoration: none;
+            transition: color 0.3s ease-in-out;
+        }
+        .footer a:hover {
+            color: #ff8a00;
+        }
+
+        /* Keyframe Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation Bar -->
+    <div class="navbar">
+        <a href="index.html">Home</a>
+        <a href="posts/index.html">All Posts</a>
+        <a href="about.html">About</a>
+        <a href="contact.html">Contact</a>
+    </div>
+
+    <!-- Banner Image -->
+    <div class="banner">
+        <img src="assets/images/blog-banner.jpg" alt="Blog Banner">
+    </div>
+
+    <div class="container">
+        <h1>Welcome to My Blog</h1>
+        <p>This is my personal space where I share thoughts, experiences, and knowledge. Feel free to explore my posts and enjoy the journey!</p>
+
+        <h2>Recommended Reads</h2>
+        <ul class="recommendations">
+            <li>
+                <img src="assets/images/post1.jpg" alt="Post 1">
+                <a href="posts/post1.html">Post Title 1</a>
+            </li>
+            <li>
+                <img src="assets/images/post2.jpg" alt="Post 2">
+                <a href="posts/post2.html">Post Title 2</a>
+            </li>
+            <!-- Add more recommended posts manually -->
+        </ul>
+
+        <p><a href="posts/index.html">View All Posts</a></p>
+    </div>
+
+    <div class="footer">
+        <p>&copy; 2025 My Blog | <a href="about.html">About</a> | <a href="contact.html">Contact</a></p>
+    </div>
+
+</body>
+</html>
 
     <div class="container">
         <h1>Welcome to My Blog</h1>
