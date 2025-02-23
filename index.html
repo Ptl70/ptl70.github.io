@@ -34,7 +34,6 @@
             text-decoration: none;
             margin: 0 20px;
             font-size: 18px;
-            transition: color 0.3s ease-in-out;
         }
         .navbar a:hover {
             color: #fdd835;
@@ -58,18 +57,6 @@
             box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1);
             text-align: left;
         }
-        .sidebar h2 {
-            font-size: 20px;
-            color: #da1b60;
-        }
-        .sidebar ul {
-            list-style: none;
-            padding: 0;
-        }
-        .sidebar li {
-            margin: 10px 0;
-            font-size: 16px;
-        }
 
         /* Right Main Content */
         .container {
@@ -80,7 +67,7 @@
             box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1);
         }
 
-        /* Recommended Posts */
+        /* Blog Cards */
         .recommendations {
             list-style: none;
             padding: 0;
@@ -95,8 +82,7 @@
             border: 2px solid #ff8a00;
             border-radius: 10px;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-            overflow: hidden;
-            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+            transition: transform 0.3s ease-in-out;
         }
         .recommendations li:hover {
             transform: scale(1.05);
@@ -116,15 +102,23 @@
             color: #333;
             font-weight: bold;
             text-decoration: none;
-            transition: color 0.3s ease-in-out;
-        }
-        .post-title:hover {
-            color: #ff8a00;
         }
         .post-subtitle {
             font-size: 14px;
             color: #666;
             margin-top: 5px;
+        }
+
+        /* New Section */
+        .extra-section {
+            max-width: 1100px;
+            width: 100%;
+            background: white;
+            padding: 30px;
+            margin-top: 30px;
+            border-radius: 10px;
+            box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1);
+            text-align: left;
         }
 
         /* Footer */
@@ -140,10 +134,6 @@
         .footer a {
             color: #fdd835;
             text-decoration: none;
-            transition: color 0.3s ease-in-out;
-        }
-        .footer a:hover {
-            color: #ff8a00;
         }
     </style>
 </head>
@@ -165,14 +155,13 @@
                 <li><a href="#">Tool 1</a></li>
                 <li><a href="#">Tool 2</a></li>
                 <li><a href="#">Tool 3</a></li>
-                <!-- User can add more tools manually -->
             </ul>
         </div>
 
         <!-- Right Section (Main Blog Content) -->
         <div class="container">
             <h1>Welcome to My Blog</h1>
-            <p>This is my personal space where I share thoughts, experiences, and knowledge. Feel free to explore my posts and enjoy the journey!</p>
+            <p>Explore my latest posts and recommendations!</p>
 
             <h2>Recommended Reads</h2>
             <ul class="recommendations">
@@ -190,11 +179,37 @@
                         <p class="post-subtitle">Another exciting topic to explore.</p>
                     </div>
                 </li>
-                <!-- Add more recommended posts manually -->
+                <li>
+                    <img src="assets/images/post3.jpg" alt="Post 3">
+                    <div class="post-content">
+                        <a href="posts/post3.html" class="post-title">Post Title 3</a>
+                        <p class="post-subtitle">An interesting story to read.</p>
+                    </div>
+                </li>
+                <li>
+                    <img src="assets/images/post4.jpg" alt="Post 4">
+                    <div class="post-content">
+                        <a href="posts/post4.html" class="post-title">Post Title 4</a>
+                        <p class="post-subtitle">Something you might find useful.</p>
+                    </div>
+                </li>
+                <li>
+                    <img src="assets/images/post5.jpg" alt="Post 5">
+                    <div class="post-content">
+                        <a href="posts/post5.html" class="post-title">Post Title 5</a>
+                        <p class="post-subtitle">Another great topic to check out.</p>
+                    </div>
+                </li>
             </ul>
 
             <p><a href="posts/index.html">View All Posts</a></p>
         </div>
+    </div>
+
+    <!-- New Section Beneath the Two Sections -->
+    <div class="extra-section">
+        <h2>Other Uses Section</h2>
+        <p>This space can be used for announcements, updates, or any other content you want to add.</p>
     </div>
 
     <div class="footer">
