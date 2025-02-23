@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, red, yellow);
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Navigation Bar */
+        .navbar {
+            background: linear-gradient(90deg, #ff8a00, #da1b60);
+            padding: 15px;
+            text-align: center;
+            width: 100%;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .navbar a {
+            color: white;
+            text-decoration: none;
+            margin: 0 20px;
+            font-size: 18px;
+        }
+        .navbar a:hover {
+            color: #fdd835;
+        }
+
+        /* Contact Form */
+        .container {
+            max-width: 600px;
+            width: 100%;
+            background: white;
+            padding: 30px;
+            margin-top: 30px;
+            border-radius: 10px;
+            box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            font-size: 28px;
+            color: #333;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+            text-align: left;
+        }
+
+        label {
+            font-size: 16px;
+            font-weight: bold;
+            color: #555;
+            display: block;
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            border: 2px solid #ff8a00;
+            border-radius: 5px;
+            outline: none;
+        }
+
+        textarea {
+            height: 120px;
+            resize: none;
+        }
+
+        .submit-btn {
+            background: #ff8a00;
+            color: white;
+            font-size: 18px;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .submit-btn:hover {
+            background: #da1b60;
+        }
+
+        /* Footer */
+        .footer {
+            margin-top: 30px;
+            font-size: 14px;
+            padding: 20px;
+            background-color: #333;
+            color: white;
+            width: 100%;
+            text-align: center;
+        }
+        .footer a {
+            color: #fdd835;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation Bar -->
+    <div class="navbar">
+        <a href="index.html">Home</a>
+        <a href="posts/index.html">All Posts</a>
+        <a href="about.html">About</a>
+        <a href="contact.html">Contact</a>
+    </div>
+
+    <!-- Contact Form -->
+    <div class="container">
+        <h1>Contact Us</h1>
+        <form action="https://formspree.io/f/your_form_id" method="POST">
+            <div class="form-group">
+                <label for="name">Name:</label>
+                <input type="text" name="name" id="name" placeholder="Your Name" required>
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" name="email" id="email" placeholder="Your Email" required>
+            </div>
+
+            <div class="form-group">
+                <label for="message">Message:</label>
+                <textarea name="message" id="message" placeholder="Your Message" required></textarea>
+            </div>
+            
+            <button type="submit" class="submit-btn">Send Message</button>
+        </form>
+    </div>
+
+    <div class="footer">
+        <p>&copy; 2025 My Blog | <a href="about.html">About</a> | <a href="contact.html">Contact</a></p>
+    </div>
+
+</body>
+</html>
