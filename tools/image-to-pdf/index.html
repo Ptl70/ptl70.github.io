@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Patel - Image to Pdf</title>
+    <meta name="description"
+        content="Free, In-browser, Privacy friendly image to PDF convertor. Supports JPG/JPEG,PNG Image file formats and multiple image conversion at once. Your content stays secure in your browser itself.">
+    <link rel="shortcut icon" type="image/x-icon" href="img2pdf-favicon.ico">
+    <link rel="icon" type="image/x-icon" href="img2pdf-favicon.ico">
+    <link rel="stylesheet" href="css/animate.min-4.1.0.css">
+    <link rel="stylesheet" href="css/bulma.min-0.9.0.css">
+    <script defer src="js/pdfkit-standalone-0.10.0.js"></script>
+    <script defer src="js/blob-stream-0.1.3.js"></script>
+    <script defer src="js/compressor-min-1.0.6.js"></script>
+    <script async src="js/fa-5.3.1.js"></script>
+    <link href="css/filepond.min-4.19.2.css" rel="stylesheet">
+    <link href="css/filepond-plugin-image-overlay.min-1.0.6.css" rel="stylesheet">
+    <link href="css/filepond-plugin-image-preview.min-4.6.4.css" rel="stylesheet">
+
+</head>
+
+<body>
+    <style>
+        .iframe-container {
+            overflow: hidden;
+            height: 100%;
+            width: 100%;
+            position: relative;
+        }
+
+        .iframe-container iframe {
+            border: 0;
+            height: 100%;
+            left: 0;
+            position: absolute;
+            top: 0;
+            width: 100%;
+        }
+
+        @media screen and (max-width: 780px) {
+            .iframe-container {
+                padding-top: 125%;
+            }
+        }
+
+        .tile::-webkit-scrollbar {
+            width: 0 !important
+        }
+
+        .tile {
+            scrollbar-width: none;
+        }
+
+        html::-webkit-scrollbar {
+            width: 0 !important
+        }
+
+        html {
+            scrollbar-width: none;
+        }
+
+        .logo-block {
+            display: inline-block;
+        }
+
+        /* .filepond--root {
+            max-height: 40em;
+        } */
+
+        .filepond--item {
+            width: calc(50% - .5em);
+        }
+
+        .tile-container {
+            width: 100%;
+            margin: 9px;
+        }
+
+        .params-div {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: row;
+            width: 100%;
+        }
+
+        .cq-range-div {
+            flex: 1 1 content;
+        }
+
+        #generate-pdf {
+            flex: 1 1 content;
+        }
+
+        .range-input {
+            vertical-align: middle;
+        }
+
+        #generate-pdf:hover {
+            transform: translateY(-2px);
+        }
+
+        .pattern {
+            background-color: #363636;
+            background-image: url("data:image/svg+xml,%3Csvg width='6' height='6' viewBox='0 0 6 6' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.21' fill-rule='evenodd'%3E%3Cpath d='M5 0h1L0 6V5zM6 5v1H5z'/%3E%3C/g%3E%3C/svg%3E");
+        }
+    </style>
+
+    <script src="js/filepond-plugin-image-preview.min-4.6.4.js"></script>
+    <script src="js/filepond-plugin-image-overlay.min-1.0.6.js"></script>
+    <script src="js/filepond-plugin-image-crop.min-2.0.4.js"></script>
+    <script src="js/filepond-plugin-file-validate-type.min-1.2.5.js"></script>
+    <!-- <script src="js/filepond-plugin-file-encode.min-2.1.6.js"></script> -->
+
+    <script src="js/filepond.min-4.19.2.js"></script>
+
+    <script>
+        FilePond.registerPlugin(
+            // FilePondPluginFileEncode,
+            FilePondPluginImageCrop,
+            FilePondPluginImagePreview,
+            FilePondPluginImageOverlay,
+            FilePondPluginFileValidateType
+        );
+    </script>
+
+    <section class="hero is-fullheight is-bold pattern">
+        <div class="hero-body">
+            <div class="tile-container">
+                <div class="tile is-ancestor">
+                    <div class="tile is-5 is-vertical is-parent" style="max-height: 90vh;overflow: scroll;">
+
+                        <div class="tile is-child box animate__animated animate__zoomInDown animate__delay-1s">
+                            <div class="content">
+                                <h1 class="has-text-grey-darker has-text-weight-semibold">Patel - Image to Pdf</h1>
+                                <h6 class="has-text-grey-dark">Made towards Privacy</h6>
+                            </div>
+                            <div id="logo" style="text-align: center; margin-bottom: 10px;">
+                                <div class="buttons logo-block" style="margin: 0 10px;">
+                                    <span class="icon is-large has-text-info">
+                                        <i class="fas fa-images fa-3x"></i>
+                                    </span>
+                                </div>
+                                <div class="buttons logo-block" style="margin: 0 0 0 5px;">
+                                    <span class="icon is-medium has-text-success">
+                                        <i class="fas fa-angle-double-right fa-3x"></i>
+                                    </span>
+                                </div>
+                                <div class="buttons logo-block" style="margin: 0 10px;">
+                                    <span class="icon is-large has-text-danger">
+                                        <i class="fas fa-file-pdf fa-3x"></i>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="tile is-child box animate__animated animate__zoomInDown animate__delay-1s">
+                            <div class="params-div">
+                                <div class="cq-range-div">
+                                    <label for="compress-quality">Image Compression: </label>
+                                    <input class="range-input" id="compress-quality" type="range" min="0" max="1"
+                                        value="0.5" step="0.1">
+                                    <output style="font-size: small;" id="output-compress-quality"
+                                        for="compress-quality">0.5</output>
+                                </div>
+
+                                <button id="generate-pdf" class="button is-danger is-rounded is-light"
+                                    style="margin-left: 20px;"> <span class="icon">
+                                        <i class="fas fa-file-pdf"></i>
+                                    </span>
+                                    <span>Generate PDF</span></button>
+                            </div>
+                            <br>
+                            <div class="content">
+                                <input type="file" id="input_img" name="input_img" multiple>
+                            </div>
+                            <br>
+                            <div class="tags is-centered">
+                                <span class="tag is-rounded is-warning">Privacy Focused</i></span>
+                                <span class="tag is-rounded is-success">Fast Conversion</span>
+                                <span class="tag is-rounded is-link">Secure</span>
+                                <span class="tag is-rounded is-primary is-light">Input Reordering</span>
+                                <span class="tag is-rounded is-dark">Built-In Compression</span>
+                                <span class="tag is-rounded is-danger is-light">Drag n Drop</span>
+                            </div>
+                            <div class="buttons is-centered">
+                                <a href="https://bulma.io" target="_blank">
+                                    <img src="res/made-with-bulma--semiblack.png" alt="Made with Bulma" width="153"
+                                        height="33">
+                                </a>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="tile is-7 is-parent">
+                        <div class="tile is-child box animate__animated animate__zoomInDown animate__delay-1s">
+                            <div class="iframe-container">
+                                <iframe frameborder="0" scrolling="no" id="output_pdf" src="res/Preview.pdf"></iframe>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <script>
+        var currentFileList = [];
+        var refreshingInput;
+        function updateCurrentFileList(files) {
+            window.currentFileList = files;
+            // currentFileList.forEach(file => { console.log(file.filename) });
+            // notifyInputRefresh();
+        }
+
+        var generate_pdf = document.getElementById("generate-pdf");
+        generate_pdf.addEventListener("click", notifyInputRefresh);
+
+        function notifyInputRefresh() {
+            if (refreshingInput) {
+                window.clearTimeout(refreshingInput);
+            }
+            refreshingInput = window.setTimeout(() => {
+                toggleButtonLoading();
+                onInputImage();
+            }, 10);
+        }
+
+        const inputElement = document.getElementById("input_img");
+        const pond = FilePond.create(inputElement, {
+            labelIdle: `Drag & Drop your picture or <span class="filepond--label-action">Browse</span>`,
+            allowReorder: true,
+            imageCropAspectRatio: '3:1',
+            // imagePreviewMaxHeight: 200,
+            imagePreviewHeight: 75,
+            allowFileTypeValidation: true,
+            acceptedFileTypes: ['image/png', 'image/jpeg'],
+            // allowFileEncode: false,
+            onaddfile: (err, fileItem) => {
+                disablePreviewClick();
+            },
+            onupdatefiles: (files) => {
+                updateCurrentFileList(files);
+            },
+            onreorderfiles: (files, origin, target) => {
+                updateCurrentFileList(files);
+            }
+        });
+
+        function disablePreviewClick() {
+            window.setTimeout(() => {
+                var imagePreviews = document.querySelectorAll('.filepond--image-preview');
+                imagePreviews.forEach(imagePreview => {
+                    imagePreview.classList.remove('clickable');
+                    imagePreview.removeEventListener('click', () => { });
+                });
+            }, 1000);
+        };
+
+        var CQ = -1;
+        const compress_quality = document.getElementById('compress-quality');
+        compress_quality.addEventListener('input', setCompressQuality);
+
+
+        function onInputImage() {
+            var input_files = [...window.currentFileList];
+            var input_file_count = input_files.length;
+            var input_img_data = new Array(input_file_count).fill(-1);
+            // console.log("images: " + input_file_count);
+
+            const output_pdf = document.getElementById('output_pdf')
+            // console.log(output_pdf.src);
+
+            if (input_files.length == 0) {
+                if (!output_pdf.src.endsWith("res/Preview.pdf")) {
+                    output_pdf.src = "res/Preview.pdf";
+                }
+                toggleButtonLoading();
+            }
+
+            input_files.forEach((fp_file, i) => {
+
+                const file = fp_file.file;
+
+                if (!file.type.startsWith('image/')) {
+                    if (!output_pdf.src.endsWith("res/Preview.pdf")) {
+                        output_pdf.src = "res/Preview.pdf";
+                    }
+                    toggleButtonLoading();
+                    return;
+                }
+
+                const reader = new FileReader();
+
+                reader.onload = async function (e) {
+                    const img = await getImgObj(e.target.result, file.name);
+                    input_img_data[i] = img;
+                    var filled = input_img_data.reduce((count, value) => {
+                        return count + (value != -1);
+                    }, 0);
+                    if (filled == input_file_count) {
+                        generatePdf(input_img_data);
+                        toggleButtonLoading();
+                    }
+                }
+
+                if (CQ != -1) {
+                    async function waitTillCompress(file) {
+                        var compress_out = await compressImg(file);
+                        reader.readAsDataURL(compress_out)
+                    }
+                    waitTillCompress(file);
+                } else {
+                    reader.readAsDataURL(file);
+                }
+            });
+
+        }
+
+        function setCompressQuality() {
+            var cq_input = Number(this.value);
+            if (cq_input == 0) {
+                CQ = -1;
+            } else {
+                CQ = 1 - cq_input;
+            }
+            document.getElementById("output-compress-quality").value = cq_input;
+            // notifyInputRefresh()
+        }
+
+        function toggleButtonLoading() {
+            var generate_pdf = document.getElementById("generate-pdf");
+            if (generate_pdf.classList.contains("is-loading")) {
+                generate_pdf.classList.remove("is-loading");
+            } else {
+                generate_pdf.classList.add("is-loading");
+            }
+
+            if (generate_pdf.classList.contains("animate__infinite")) {
+                generate_pdf.classList.remove("animate__animated");
+                generate_pdf.classList.remove("animate__pulse");
+                generate_pdf.classList.remove("animate__infinite");
+            } else {
+                generate_pdf.classList.add("animate__animated");
+                generate_pdf.classList.add("animate__pulse");
+                generate_pdf.classList.add("animate__infinite");
+            }
+        }
+        function compressImg(file) {
+
+            return new Promise(function (resolve, reject) {
+                var opt = {
+                    strict: true,
+                    checkOrientation: true,
+                    maxWidth: Infinity,
+                    maxHeight: Infinity,
+                    minWidth: 0,
+                    minHeight: 0,
+                    width: undefined,
+                    height: undefined,
+                    /**
+                     * The quality of the output image.
+                     * It must be a number between `0` and `1`,
+                     * and only available for `image/jpeg` and `image/webp` images.
+                     * Check out {@link https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement/toBlob canvas.toBlob}.
+                     * @type {number}
+                     */
+                    quality: (CQ != -1) ? CQ : 0.8,
+                    mimeType: 'auto',
+                    /**
+                     * PNG files over this value (5 MB by default) will be converted to JPEGs.
+                     * To disable this, just set the value to `Infinity`.
+                     * @type {number}
+                     */
+                    convertSize: 1,
+                    beforeDraw: null,
+                    drew: null,
+                    success(result) {
+                        resolve(result)
+                    },
+                    error(err) {
+                        console.log(err.message);
+                    },
+                };
+
+                new Compressor(file, opt);
+            });
+
+        }
+
+        function getImgObj(ibase64, name) {
+            return new Promise(function (resolve, reject) {
+                var img = new Image();
+
+                img.onload = function () {
+                    resolve(img);
+                }
+
+                img.src = ibase64;
+                img.name = name;
+            });
+        }
+
+
+        function generatePdf(img_data) {
+
+            var options = {
+                autoFirstPage: false,
+                compress: false
+            };
+
+            const doc = new PDFDocument(options);
+
+            doc.info = {
+                Title: 'ImageDoc.pdf',
+                Author: 'Img2Pdf',
+                Keywords: 'https://opentoolkit.github.io/Img2Pdf/'
+            }
+            const stream = doc.pipe(blobStream());
+
+            for (let i = 0; i < img_data.length; i++) {
+                doc.addPage({
+                    size: [img_data[i].width, img_data[i].height]
+                })
+                doc.image(img_data[i].src, 0, 0);
+            }
+
+            doc.end();
+
+            stream.on('finish', function () {
+                var output_pdf = document.getElementById('output_pdf')
+                var output_blob = stream.toBlob('application/pdf');
+                output_pdf.src = stream.toBlobURL('application/pdf');
+            })
+
+        }
+
+    </script>
+</body>
+</html>
