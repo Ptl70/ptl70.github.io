@@ -32,21 +32,23 @@
         th, td { border: 1px solid #ddd; padding: 10px; text-align: center; }
         .preview-img, .compressed-img { width: 100px; height: 200px; object-fit: cover; loading: lazy; }
         .download-btn { display: block; margin-top: 5px; padding: 5px 10px; background: #28a745; color: white; text-decoration: none; border-radius: 5px; }
-        .ad-slot { width: 100%; max-width: 728px; height: 90px; background: #ccc; margin: 20px auto; text-align: center; line-height: 90px; font-size: 18px; color: #666; }
-        @media (max-width: 768px) { .controls { flex-direction: column; align-items: center; } #dropZone { width: 90%; } }
+        .social-buttons a { margin: 5px; display: inline-block; padding: 10px; border-radius: 5px; color: white; text-decoration: none; }
+        .facebook { background: #3b5998; }
+        .twitter { background: #1da1f2; }
+        .whatsapp { background: #25d366; }
+        .linkedin { background: #0077b5; }
+        .blog-section { display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; margin-top: 30px; }
+        .blog-card { width: 250px; background: white; padding: 15px; border-radius: 8px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); }
+        .blog-card h3 { margin-bottom: 10px; }
+        .blog-card p { font-size: 14px; color: #666; }
+        .blog-card a { color: #007bff; text-decoration: none; }
+        .footer { background: #333; color: white; padding: 20px; margin-top: 30px; }
     </style>
 </head>
 <body>
 
     <h1>Patel Image Compressor</h1>
     <p>Adjust quality & file size without resizing.</p>
-
-    <div class="ad-slot">Ad Slot 1</div>
-
-    <div class="controls">
-        <label>Quality: <input type="range" id="qualitySlider" class="slider" min="0.1" max="1" step="0.1" value="0.7"></label>
-        <label>Max File Size (KB): <input type="number" id="sizeInput" min="10" max="1000" step="10" value="500"></label>
-    </div>
 
     <div id="dropZone">Drag & Drop Images Here or Click to Upload</div>
     <input type="file" id="imageInput" multiple accept="image/*" style="display:none;">
@@ -55,6 +57,13 @@
         <button id="compressBtn">Compress</button>
         <button id="clearBtn">Clear</button>
         <button id="downloadAllBtn">Download All</button>
+    </div>
+
+    <div class="social-buttons">
+        <a href="#" class="facebook">Share on Facebook</a>
+        <a href="#" class="twitter">Share on Twitter</a>
+        <a href="#" class="whatsapp">Share on WhatsApp</a>
+        <a href="#" class="linkedin">Share on LinkedIn</a>
     </div>
 
     <div class="table-container">
@@ -66,59 +75,36 @@
         </table>
     </div>
 
-    <div class="ad-slot">Ad Slot 2</div>
-
     <h2>Frequently Asked Questions</h2>
-    <details><summary>Does Patel Image Compressor work offline?</summary><p>Yes! This tool works 100% offline, no internet required.</p></details>
-    <details><summary>What image formats are supported?</summary><p>PNG, JPG, and WebP images.</p></details>
+    <details><summary>Does Patel Image Compressor work offline?</summary><p>Yes! This tool works 100% offline.</p></details>
+    <details><summary>What formats are supported?</summary><p>PNG, JPG, and WebP.</p></details>
+    <details><summary>Is this tool free?</summary><p>Yes, it is completely free.</p></details>
+    <details><summary>Does it reduce image quality?</summary><p>No, it maintains high quality.</p></details>
+    <details><summary>How can I download all images?</summary><p>Click the "Download All" button.</p></details>
+
+    <h2>Latest Blog Posts</h2>
+    <div class="blog-section">
+        <div class="blog-card">
+            <h3>Best Practices for Image Optimization</h3>
+            <p>Learn how to optimize images for better performance.</p>
+            <a href="#">Read More</a>
+        </div>
+        <div class="blog-card">
+            <h3>How to Improve Website Speed</h3>
+            <p>Boost your website speed with compressed images.</p>
+            <a href="#">Read More</a>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2025 Patel Image Compressor. All Rights Reserved.</p>
+    </footer>
 
     <script>
-        class ImageCompressor {
-            constructor() {
-                this.imageInput = document.getElementById('imageInput');
-                this.dropZone = document.getElementById('dropZone');
-                this.compressBtn = document.getElementById('compressBtn');
-                this.clearBtn = document.getElementById('clearBtn');
-                this.downloadAllBtn = document.getElementById('downloadAllBtn');
-                this.imageTableBody = document.getElementById('imageTableBody');
-                this.images = [];
-                this.init();
-            }
-            init() {
-                this.dropZone.addEventListener('click', () => this.imageInput.click());
-                this.dropZone.addEventListener('dragover', (e) => e.preventDefault());
-                this.dropZone.addEventListener('drop', (e) => {
-                    e.preventDefault();
-                    this.handleFiles(e.dataTransfer.files);
-                });
-                this.imageInput.addEventListener('change', () => this.handleFiles(this.imageInput.files));
-                this.compressBtn.addEventListener('click', () => this.compressImages());
-                this.clearBtn.addEventListener('click', () => this.clearImages());
-                this.downloadAllBtn.addEventListener('click', () => this.downloadAllAsZip());
-            }
-            handleFiles(files) {
-                this.imageTableBody.innerHTML = '';
-                this.images = Array.from(files).filter(file => file.type.startsWith('image/'));
-                this.images.forEach(file => this.displayOriginalImage(file));
-            }
-            displayOriginalImage(file) {
-                const reader = new FileReader();
-                reader.onload = (e) => {
-                    const img = new Image();
-                    img.src = e.target.result;
-                    img.className = "preview-img";
-                    const row = this.imageTableBody.insertRow();
-                    row.insertCell(0).appendChild(img);
-                    row.insertCell(1).innerText = "Not Compressed Yet";
-                };
-                reader.readAsDataURL(file);
-            }
-        }
-        new ImageCompressor();
-    </script>
-
-    <script type="application/ld+json">
-        { "@context": "https://schema.org/", "@type": "SoftwareApplication", "name": "Patel Image Compressor", "applicationCategory": "ImageCompression", "operatingSystem": "Web" }
+        document.getElementById('dropZone').addEventListener('click', () => document.getElementById('imageInput').click());
+        document.querySelectorAll('.social-buttons a').forEach(link => {
+            link.href = `https://www.${link.className}.com/share?url=${encodeURIComponent(window.location.href)}`;
+        });
     </script>
 
 </body>
