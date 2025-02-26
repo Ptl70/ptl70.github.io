@@ -2,29 +2,126 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="description" content="Patel's Scientific Calculator. Perform advanced mathematical calculations with ease using Patel's Scientific Calculator.">
-  <meta name="keywords" content="Patel, scientific calculator, math, advanced calculations, offline calculator, trigonometry, algebra, calculus">
-  <meta name="author" content="Patel">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Patel Scientific Calculator</title>
+  <meta name="description" content="Perform advanced mathematical calculations with Patel's Scientific Calculator.">
+  <meta name="keywords" content="scientific calculator, math, trigonometry, algebra, calculus, Patel">
+  <meta name="author" content="Patel">
   <meta name="robots" content="index, follow">
   <meta property="og:title" content="Patel Scientific Calculator">
-  <meta property="og:description" content="Perform advanced mathematical calculations with ease using Patel's Scientific Calculator.">
+  <meta property="og:description" content="A powerful and intuitive scientific calculator for all your math needs.">
+  <meta property="og:url" content="https://ptl70.github.io">
   <meta property="og:type" content="website">
-  <meta property="og:url" content="https://ptl70.github.io/">
-  <meta property="og:image" content="https://ptl70.github.io/images/calculator-og-image.jpg">
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Patel Scientific Calculator">
-  <meta name="twitter:description" content="Perform advanced mathematical calculations with ease using Patel's Scientific Calculator.">
-  <meta name="twitter:image" content="https://ptl70.github.io/images/calculator-og-image.jpg">
-  <title>Patel Scientific Calculator</title>
-  <link rel="stylesheet" href="styles.css">
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-  <script>
-    (adsbygoogle = window.adsbygoogle || []).push({
-      google_ad_client: "ca-pub-XXXXXXX", // Replace with your AdSense Publisher ID
-      enable_page_level_ads: true
-    });
-  </script>
+  <meta property="og:image" content="https://ptl70.github.io/assets/calculator-preview.png">
+  <meta name="theme-color" content="#4caf50">
+  <style>
+    /* General Styles */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Roboto', sans-serif;
+    }
+
+    body {
+      background: linear-gradient(135deg, #ece9e6, #ffffff);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      transition: background 0.5s ease, color 0.5s ease;
+      color: #333;
+      flex-direction: column;
+    }
+
+    #calculator {
+      background: #fff;
+      width: 100%;
+      max-width: 400px;
+      padding: 20px;
+      border-radius: 15px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      transition: background 0.3s;
+    }
+
+    #display {
+      width: 100%;
+      height: 60px;
+      font-size: 1.8em;
+      padding: 10px 15px;
+      margin-bottom: 20px;
+      text-align: right;
+      border: none;
+      border-radius: 8px;
+      background: #222;
+      color: #0f0;
+      box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
+    }
+
+    .button-row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 10px;
+    }
+
+    .button {
+      width: 22%;
+      padding: 15px;
+      font-size: 1.2em;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.3s, transform 0.1s;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .button:hover { opacity: 0.9; }
+    .button:active { transform: scale(0.9); box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2); }
+
+    .operator { background: linear-gradient(135deg, #ff8a00, #e52e71); color: #fff; }
+    .function { background: linear-gradient(135deg, #636363, #333); color: #fff; }
+    .equal { background: linear-gradient(135deg, #4caf50, #087f23); color: #fff; }
+    .clear { background: linear-gradient(135deg, #d32f2f, #b71c1c); color: #fff; }
+    .memory { background: linear-gradient(135deg, #00bcd4, #0097a7); color: #fff; }
+
+    /* Dark Mode */
+    .dark-mode { background: #1e1e1e; color: #f1f1f1; }
+    .dark-mode #calculator { background: #292929; }
+    .dark-mode #display { background: #111; color: #0f0; }
+    .dark-mode .history { background: #1e1e1e; color: #f1f1f1; border-left: 5px solid #00e676; }
+
+    /* Theme Toggle */
+    #themeToggle {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      cursor: pointer;
+      font-size: 1.5em;
+      background: none;
+      border: none;
+      color: inherit;
+      transition: transform 0.2s ease;
+    }
+
+    #themeToggle:hover { transform: scale(1.2); }
+
+    /* History */
+    #history {
+      background: #fff;
+      color: #333;
+      width: 100%;
+      max-width: 400px;
+      padding: 10px;
+      border-radius: 10px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      margin-top: 10px;
+      display: none;
+      max-height: 200px;
+      overflow-y: auto;
+      border-left: 5px solid #4caf50;
+    }
+
+  </style>
 </head>
 <body>
   <button id="themeToggle">🌙</button>
@@ -43,52 +140,9 @@
       <button class="button operator" onclick="appendValue('*')">×</button>
     </div>
     <div class="button-row">
-      <button class="button" onclick="appendValue('4')">4</button>
-      <button class="button" onclick="appendValue('5')">5</button>
-      <button class="button" onclick="appendValue('6')">6</button>
-      <button class="button operator" onclick="appendValue('-')">−</button>
-    </div>
-    <div class="button-row">
-      <button class="button" onclick="appendValue('1')">1</button>
-      <button class="button" onclick="appendValue('2')">2</button>
-      <button class="button" onclick="appendValue('3')">3</button>
-      <button class="button operator" onclick="appendValue('+')">+</button>
-    </div>
-    <div class="button-row">
-      <button class="button" onclick="appendValue('0')">0</button>
-      <button class="button" onclick="appendValue('.')">.</button>
-      <button class="button operator" onclick="appendValue('(')">(</button>
-      <button class="button operator" onclick="appendValue(')')">)</button>
-    </div>
-    <div class="button-row">
-      <button class="button function" onclick="appendValue('Math.tan(')">tan</button>
       <button class="button function" onclick="appendValue('Math.sqrt(')">√</button>
       <button class="button function" onclick="appendValue('Math.log(')">log</button>
       <button class="button equal" onclick="calculate()">=</button>
-    </div>
-    <div class="button-row">
-      <button class="button function" onclick="appendValue('Math.pow(')">pow</button>
-      <button class="button function" onclick="appendValue('Math.exp(')">exp</button>
-      <button class="button function" onclick="appendValue('Math.PI')">π</button>
-      <button class="button function" onclick="deleteLast()">DEL</button>
-    </div>
-    <div class="button-row">
-      <button class="button function" onclick="appendValue('Math.abs(')">abs</button>
-      <button class="button function" onclick="appendValue('Math.asin(')">asin</button>
-      <button class="button function" onclick="appendValue('Math.acos(')">acos</button>
-      <button class="button function" onclick="appendValue('Math.atan(')">atan</button>
-    </div>
-    <div class="button-row">
-      <button class="button function" onclick="appendValue('Math.sinh(')">sinh</button>
-      <button class="button function" onclick="appendValue('Math.cosh(')">cosh</button>
-      <button class="button function" onclick="appendValue('Math.tanh(')">tanh</button>
-      <button class="button function" onclick="appendValue('Math.E')">e</button>
-    </div>
-    <div class="button-row">
-      <button class="button memory" onclick="memoryClear()">MC</button>
-      <button class="button memory" onclick="memoryRecall()">MR</button>
-      <button class="button memory" onclick="memoryAdd()">M+</button>
-      <button class="button memory" onclick="memorySubtract()">M-</button>
     </div>
   </div>
   <div id="history"></div>
@@ -104,79 +158,28 @@
     function clearDisplay() {
       document.getElementById('display').value = "";
     }
-    
-    function deleteLast() {
-      let current = document.getElementById('display').value;
-      document.getElementById('display').value = current.slice(0, -1);
-    }
-    
+
     function calculate() {
       let expression = document.getElementById('display').value;
       try {
         let result = math.evaluate(expression);
-        if (!isFinite(result)) throw new Error("Math Error");
         document.getElementById('display').value = result;
         addToHistory(expression + " = " + result);
       } catch (error) {
-        document.getElementById('display').value = error.message;
-      }
-    }
-
-    function memoryClear() {
-      memory = 0;
-    }
-
-    function memoryRecall() {
-      document.getElementById('display').value += memory;
-    }
-
-    function memoryAdd() {
-      try {
-        let expression = document.getElementById('display').value;
-        let result = math.evaluate(expression);
-        if (isFinite(result)) {
-          memory += result;
-        } else {
-          throw new Error("Math Error");
-        }
-      } catch (error) {
-        document.getElementById('display').value = error.message;
-      }
-    }
-
-    function memorySubtract() {
-      try {
-        let expression = document.getElementById('display').value;
-        let result = math.evaluate(expression);
-        if (isFinite(result)) {
-          memory -= result;
-        } else {
-          throw new Error("Math Error");
-        }
-      } catch (error) {
-        document.getElementById('display').value = error.message;
+        document.getElementById('display').value = "Error";
       }
     }
 
     function addToHistory(entry) {
       history.push(entry);
-      updateHistoryDisplay();
-    }
-
-    function updateHistoryDisplay() {
-      const historyDiv = document.getElementById('history');
-      historyDiv.innerHTML = history.join("<br>");
-      historyDiv.style.display = "block";
+      document.getElementById('history').innerHTML = history.join("<br>");
+      document.getElementById('history').style.display = "block";
     }
 
     document.getElementById('themeToggle').onclick = function() {
       document.body.classList.toggle('dark-mode');
-      if (document.body.classList.contains('dark-mode')) {
-        this.textContent = '☀️';
-      } else {
-        this.textContent = '🌙';
-      }
-    }
+      this.textContent = document.body.classList.contains('dark-mode') ? '☀️' : '🌙';
+    };
   </script>
 </body>
 </html>
