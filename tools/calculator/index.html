@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="description" content="Patel's Scientific Calculator. Perform advanced mathematical calculations with ease using Patel's Scientific Calculator.">
+  <meta name="keywords" content="Patel, scientific calculator, math, advanced calculations, offline calculator, trigonometry, algebra, calculus">
+  <meta name="author" content="Patel">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="index, follow">
+  <meta property="og:title" content="Patel Scientific Calculator">
+  <meta property="og:description" content="Perform advanced mathematical calculations with ease using Patel's Scientific Calculator.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://ptl70.github.io/">
+  <meta property="og:image" content="https://ptl70.github.io/images/calculator-og-image.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Patel Scientific Calculator">
+  <meta name="twitter:description" content="Perform advanced mathematical calculations with ease using Patel's Scientific Calculator.">
+  <meta name="twitter:image" content="https://ptl70.github.io/images/calculator-og-image.jpg">
+  <title>Patel Scientific Calculator</title>
+  <style>
+    body {
+      font-family: 'Roboto', sans-serif;
+      background: #f2f2f2;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      color: #333;
+      transition: background 0.3s, color 0.3s;
+    }
+    #calculator {
+      background: #fff;
+      width: 100%;
+      max-width: 400px;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+      transition: background 0.3s;
+    }
+    #display {
+      width: 100%;
+      height: 50px;
+      font-size: 1.5em;
+      padding: 5px 10px;
+      margin-bottom: 20px;
+      text-align: right;
+      border: none;
+      border-radius: 4px;
+      background: #333;
+      color: #fff;
+    }
+    .button {
+      width: 22%;
+      padding: 15px;
+      margin: 2%;
+      font-size: 1.1em;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background 0.3s, transform 0.1s;
+    }
+    .button:hover {
+      opacity: 0.9;
+    }
+    .button:active {
+      transform: scale(0.95);
+    }
+    .operator {
+      background: #ff9500;
+      color: #fff;
+    }
+    .function {
+      background: #636363;
+    }
+    .equal {
+      background: #4caf50;
+      color: #fff;
+    }
+    .clear {
+      background: #d32f2f;
+      color: #fff;
+    }
+    .memory {
+      background: #00bcd4;
+      color: #fff;
+    }
+    .dark-mode {
+      background: #292929;
+      color: #f1f1f1;
+    }
+    .dark-mode #calculator {
+      background: #1e1e1e;
+    }
+    .dark-mode #display {
+      background: #555;
+    }
+    .dark-mode .button {
+      color: #fff;
+    }
+    .dark-mode .operator {
+      background: #ff9500;
+    }
+    .dark-mode .function {
+      background: #636363;
+    }
+    .dark-mode .equal {
+      background: #4caf50;
+    }
+    .dark-mode .clear {
+      background: #d32f2f;
+    }
+    .dark-mode .memory {
+      background: #00bcd4;
+    }
+    #themeToggle {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      cursor: pointer;
+      font-size: 1.2em;
+      background: none;
+      border: none;
+      color: inherit;
+    }
+    #history {
+      background: #fff;
+      color: #333;
+      width: 100%;
+      max-width: 400px;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+      margin-top: 10px;
+      display: none;
+      max-height: 200px;
+      overflow-y: auto;
+    }
+    .dark-mode #history {
+      background: #1e1e1e;
+      color: #f1f1f1;
+    }
+  </style>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+  <script>
+    (adsbygoogle = window.adsbygoogle || []).push({
+      google_ad_client: "ca-pub-XXXXXXX", // Replace with your AdSense Publisher ID
+      enable_page_level_ads: true
+    });
+  </script>
+</head>
+<body>
+  <button id="themeToggle">🌙</button>
+  <div id="calculator">
+    <input type="text" id="display" placeholder="0" disabled>
+    <div>
+      <button class="button clear" onclick="clearDisplay()">C</button>
+      <button class="button function" onclick="appendValue('Math.sin(')">sin</button>
+      <button class="button function" onclick="appendValue('Math.cos(')">cos</button>
+      <button class="button operator" onclick="appendValue('/')">÷</button>
+    </div>
+    <div>
+      <button class="button" onclick="appendValue('7')">7</button>
+      <button class="button" onclick="appendValue('8')">8</button>
+      <button class="button" onclick="appendValue('9')">9</button>
+      <button class="button operator" onclick="appendValue('*')">×</button>
+    </div>
+    <div>
+      <button class="button" onclick="appendValue('4')">4</button>
+      <button class="button" onclick="appendValue('5')">5</button>
+      <button class="button" onclick="appendValue('6')">6</button>
+      <button class="button operator" onclick="appendValue('-')">−</button>
+    </div>
+    <div>
+      <button class="button" onclick="appendValue('1')">1</button>
+      <button class="button" onclick="appendValue('2')">2</button>
+      <button class="button" onclick="appendValue('3')">3</button>
+      <button class="button operator" onclick="appendValue('+')">+</button>
+    </div>
+    <div>
+      <button class="button" onclick="appendValue('0')">0</button>
+      <button class="button" onclick="appendValue('.')">.</button>
+      <button class="button operator" onclick="appendValue('(')">(</button>
+      <button class="button operator" onclick="appendValue(')')">)</button>
+    </div>
+    <div>
+      <button class="button function" onclick="appendValue('Math.tan(')">tan</button>
+      <button class="button function" onclick="appendValue('Math.sqrt(')">√</button>
+      <button class="button function" onclick="appendValue('Math.log(')">log</button>
+      <button class="button equal" onclick="calculate()">=</button>
+    </div>
+    <div>
+      <button class="button function" onclick="appendValue('Math.pow(')">pow</button>
+      <button class="button function" onclick="appendValue('Math.exp(')">exp</button>
+      <button class="button function" onclick="appendValue('Math.PI')">π</button>
+      <button class="button function" onclick="deleteLast()">DEL</button>
+    </div>
+    <div>
+      <button class="button function" onclick="appendValue('Math.abs(')">abs</button>
+      <button class="button function" onclick="appendValue('Math.asin(')">asin</button>
+      <button class="button function" onclick="appendValue('Math.acos(')">acos</button>
+      <button class="button function" onclick="appendValue('Math.atan(')">atan</button>
+    </div>
+    <div>
+      <button class="button function" onclick="appendValue('Math.sinh(')">sinh</button>
+      <button class="button function" onclick="appendValue('Math.cosh(')">cosh</button>
+      <button class="button function" onclick="appendValue('Math.tanh(')">tanh</button>
+      <button class="button function" onclick="appendValue('Math.E')">e</button>
+    </div>
+    <div>
+      <button class="button memory" onclick="memoryClear()">MC</button>
+      <button class="button memory" onclick="memoryRecall()">MR</button>
+      <button class="button memory" onclick="memoryAdd()">M+</button>
+      <button class="button memory" onclick="memorySubtract()">M-</button>
+    </div>
+  </div>
+  <div id="history"></div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/9.4.4/math.js"></script>
+  <script>
+    let memory = 0;
+    let history = [];
+
+    function appendValue(val) {
+      document.getElementById('display').value += val;
+    }
+    
+    function clearDisplay() {
+      document.getElementById('display').value = "";
+    }
+    
+    function deleteLast() {
+      let current = document.getElementById('display').value;
+      document.getElementById('display').value = current.slice(0, -1);
+    }
+    
+    function calculate() {
+      let expression = document.getElementById('display').value;
+      try {
+        let result = math.evaluate(expression);
+        if (!isFinite(result)) throw new Error("Math Error");
+        document.getElementById('display').value = result;
+        addToHistory(expression + " = " + result);
+      } catch (error) {
+        document.getElementById('display').value = error.message;
+      }
+    }
+
+    function memoryClear() {
+      memory = 0;
+    }
+
+    function memoryRecall() {
+      document.getElementById('display').value += memory;
+    }
+
+    function memoryAdd() {
+      try {
+        let expression = document.getElementById('display').value;
+        let result = math.evaluate(expression);
+        if (isFinite(result)) {
+          memory += result;
+        } else {
+          throw new Error("Math Error");
+        }
+      } catch (error) {
+        document.getElementById('display').value = error.message;
+      }
+    }
+
+    function memorySubtract() {
+      try {
+        let expression = document.getElementById('display').value;
+        let result = math.evaluate(expression);
+        if (isFinite(result)) {
+          memory -= result;
+        } else {
+          throw new Error("Math Error");
+        }
+      } catch (error) {
+        document.getElementById('display').value = error.message;
+      }
+    }
+
+    function addToHistory(entry) {
+      history.push(entry);
+      updateHistoryDisplay();
+    }
+
+    function updateHistoryDisplay() {
+      const historyDiv = document.getElementById('history');
+      historyDiv.innerHTML = history.join("<br>");
+      historyDiv.style.display = "block";
+    }
+
+    document.getElementById('themeToggle').onclick = function() {
+      document.body.classList.toggle('dark-mode');
+      if (document.body.classList.contains('dark-mode')) {
+        this.textContent = '☀️';
+      } else {
+        this.textContent = '🌙';
+      }
+    }
+  </script>
+</body>
+</html>
