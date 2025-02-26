@@ -3,71 +3,116 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Patel Scientific Calculator</title>
+  <title>Luxury Calculator</title>
   <style>
+    /* Exotic Premium Theme */
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
     body {
-      font-family: 'Roboto', sans-serif;
-      background: linear-gradient(135deg, #ece9e6, #ffffff);
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #1a1a1a, #292929);
       margin: 0;
       padding: 0;
       display: flex;
       justify-content: center;
       align-items: center;
       height: 100vh;
-      color: #333;
-      transition: background 0.3s, color 0.3s;
+      color: #fff;
     }
+
     #calculator {
-      background: #fff;
-      max-width: 350px;
-      padding: 20px;
-      border-radius: 15px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(15px);
+      border-radius: 20px;
+      padding: 25px;
+      box-shadow: 0 10px 30px rgba(255, 215, 0, 0.2);
+      text-align: center;
+      width: 350px;
+      border: 1px solid rgba(255, 215, 0, 0.4);
     }
+
     #display {
       width: 100%;
-      height: 60px;
-      font-size: 1.8em;
+      height: 70px;
+      font-size: 2em;
       padding: 10px;
       text-align: right;
       border: none;
-      border-radius: 8px;
-      background: #333;
-      color: #fff;
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.2);
+      color: #ffd700;
+      box-shadow: inset 0 2px 4px rgba(255, 215, 0, 0.2);
+      font-weight: 600;
     }
+
     .button-grid {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
-      gap: 10px;
-      margin-top: 10px;
+      gap: 12px;
+      margin-top: 15px;
     }
+
     .button {
-      padding: 15px;
-      font-size: 1.2em;
+      padding: 18px;
+      font-size: 1.5em;
       border: none;
-      border-radius: 8px;
+      border-radius: 12px;
       cursor: pointer;
       transition: 0.3s;
       text-align: center;
+      background: rgba(255, 255, 255, 0.2);
+      color: #ffd700;
+      font-weight: 600;
+      box-shadow: 0 4px 15px rgba(255, 215, 0, 0.15);
     }
-    .operator { background: #ff8a00; color: #fff; }
-    .function { background: #636363; color: #fff; }
-    .equal { background: #4caf50; color: #fff; }
-    .clear { background: #d32f2f; color: #fff; }
-    .memory { background: #00bcd4; color: #fff; }
-    .dark-mode { background: #292929; color: #f1f1f1; }
-    .dark-mode #calculator { background: #1e1e1e; }
-    .dark-mode #display { background: #555; }
-    .dark-mode .button { color: #fff; }
+
+    .button:hover {
+      background: rgba(255, 255, 255, 0.3);
+    }
+
+    .operator { background: linear-gradient(135deg, #ffb300, #ff8c00); color: #fff; }
+    .equal { background: linear-gradient(135deg, #1db954, #17a74b); color: #fff; }
+    .clear { background: linear-gradient(135deg, #d32f2f, #b71c1c); color: #fff; }
+
+    /* Theme Toggle */
     #themeToggle {
       position: absolute;
       top: 20px;
       right: 20px;
       cursor: pointer;
-      font-size: 1.2em;
+      font-size: 1.5em;
       background: none;
       border: none;
-      color: inherit;
+      color: #ffd700;
+      transition: 0.3s;
+    }
+
+    #themeToggle:hover {
+      transform: scale(1.1);
+    }
+
+    /* Dark Mode */
+    .dark-mode {
+      background: linear-gradient(135deg, #0d0d0d, #1a1a1a);
+    }
+
+    .dark-mode #calculator {
+      background: rgba(0, 0, 0, 0.6);
+      border: 1px solid rgba(255, 215, 0, 0.6);
+    }
+
+    .dark-mode #display {
+      background: rgba(255, 255, 255, 0.1);
+      color: #ffd700;
+    }
+
+    .dark-mode .button {
+      background: rgba(255, 255, 255, 0.1);
+      color: #ffd700;
+    }
+
+    .dark-mode .button:hover {
+      background: rgba(255, 255, 255, 0.2);
     }
   </style>
 </head>
@@ -77,50 +122,30 @@
     <input type="text" id="display" placeholder="0" disabled>
     <div class="button-grid">
       <button class="button clear" onclick="clearDisplay()">C</button>
-      <button class="button function" onclick="appendValue('Math.sin(')">sin</button>
-      <button class="button function" onclick="appendValue('Math.cos(')">cos</button>
-      <button class="button function" onclick="appendValue('Math.tan(')">tan</button>
-      
       <button class="button" onclick="appendValue('7')">7</button>
       <button class="button" onclick="appendValue('8')">8</button>
       <button class="button" onclick="appendValue('9')">9</button>
-      <button class="button operator" onclick="appendValue('/')">÷</button>
 
+      <button class="button operator" onclick="appendValue('/')">÷</button>
       <button class="button" onclick="appendValue('4')">4</button>
       <button class="button" onclick="appendValue('5')">5</button>
       <button class="button" onclick="appendValue('6')">6</button>
-      <button class="button operator" onclick="appendValue('*')">×</button>
 
+      <button class="button operator" onclick="appendValue('*')">×</button>
       <button class="button" onclick="appendValue('1')">1</button>
       <button class="button" onclick="appendValue('2')">2</button>
       <button class="button" onclick="appendValue('3')">3</button>
-      <button class="button operator" onclick="appendValue('-')">−</button>
 
+      <button class="button operator" onclick="appendValue('-')">−</button>
       <button class="button" onclick="appendValue('0')">0</button>
       <button class="button" onclick="appendValue('.')">.</button>
       <button class="button equal" onclick="calculate()">=</button>
+
       <button class="button operator" onclick="appendValue('+')">+</button>
-
-      <button class="button function" onclick="appendValue('Math.sqrt(')">√</button>
-      <button class="button function" onclick="appendValue('Math.log(')">log</button>
-      <button class="button function" onclick="appendValue('Math.exp(')">e^x</button>
-      <button class="button function" onclick="appendValue('**')">x^y</button>
-
-      <button class="button function" onclick="appendValue('Math.PI')">π</button>
-      <button class="button function" onclick="appendValue('Math.E')">e</button>
-      <button class="button function" onclick="appendValue('(')">(</button>
-      <button class="button function" onclick="appendValue(')')">)</button>
-
-      <button class="button memory" onclick="storeMemory()">M+</button>
-      <button class="button memory" onclick="subtractMemory()">M-</button>
-      <button class="button memory" onclick="recallMemory()">MR</button>
-      <button class="button memory" onclick="clearMemory()">MC</button>
     </div>
   </div>
-  
-  <script>
-    let memory = 0;
 
+  <script>
     function appendValue(val) {
       document.getElementById('display').value += val;
     }
@@ -130,31 +155,14 @@
     }
 
     function calculate() {
-      let expression = document.getElementById('display').value;
       try {
-        let result = eval(expression);
-        document.getElementById('display').value = result;
+        document.getElementById('display').value = eval(document.getElementById('display').value);
       } catch {
         document.getElementById('display').value = "Error";
       }
     }
 
-    function storeMemory() {
-      memory = parseFloat(document.getElementById('display').value) || 0;
-    }
-
-    function subtractMemory() {
-      memory -= parseFloat(document.getElementById('display').value) || 0;
-    }
-
-    function recallMemory() {
-      document.getElementById('display').value = memory;
-    }
-
-    function clearMemory() {
-      memory = 0;
-    }
-
+    // Theme Toggle
     document.getElementById('themeToggle').onclick = function() {
       document.body.classList.toggle('dark-mode');
       localStorage.setItem("theme", document.body.classList.contains('dark-mode') ? "dark" : "light");
