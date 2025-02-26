@@ -2,148 +2,164 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="description" content="Patel Premium Calculator - A luxurious and elegant way to perform quick and accurate calculations online.">
+  <meta name="keywords" content="Patel Calculator, premium calculator, online calculator, luxury design, math tool, fast calculations">
+  <meta name="author" content="Patel">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Luxury Calculator</title>
+  <meta name="robots" content="index, follow">
+  <meta property="og:title" content="Patel Premium Calculator - Luxury Math Tool">
+  <meta property="og:description" content="Perform accurate calculations with Patel Premium Calculator, designed for elegance and efficiency.">
+  <meta property="og:url" content="https://ptl70.github.io/">
+  <meta property="og:image" content="https://ptl70.github.io/images/calculator-og-image.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Patel Premium Calculator - Fast & Elegant">
+  <meta name="twitter:description" content="A luxurious calculator with a premium design for quick and accurate calculations.">
+  <meta name="twitter:image" content="https://ptl70.github.io/images/calculator-og-image.jpg">
+  <title>Patel Premium Calculator | Luxury Online Calculator</title>
   <style>
-    /* Exotic Premium Theme */
-    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
-
     body {
       font-family: 'Poppins', sans-serif;
-      background: linear-gradient(135deg, #1a1a1a, #292929);
+      background: linear-gradient(135deg, #1a1a1a, #2c2c2c);
+      color: #fff;
       margin: 0;
       padding: 0;
       display: flex;
-      justify-content: center;
+      flex-direction: column;
       align-items: center;
-      height: 100vh;
-      color: #fff;
+      justify-content: center;
+      min-height: 100vh;
     }
 
     #calculator {
-      background: rgba(255, 255, 255, 0.1);
-      backdrop-filter: blur(15px);
-      border-radius: 20px;
-      padding: 25px;
+      background: rgba(20, 20, 20, 0.9);
+      width: 100%;
+      max-width: 350px;
+      padding: 20px;
+      border-radius: 12px;
       box-shadow: 0 10px 30px rgba(255, 215, 0, 0.2);
       text-align: center;
-      width: 350px;
-      border: 1px solid rgba(255, 215, 0, 0.4);
     }
 
     #display {
       width: 100%;
-      height: 70px;
-      font-size: 2em;
+      height: 60px;
+      font-size: 1.8em;
       padding: 10px;
       text-align: right;
       border: none;
-      border-radius: 10px;
-      background: rgba(255, 255, 255, 0.2);
+      border-radius: 8px;
+      background: #000;
       color: #ffd700;
-      box-shadow: inset 0 2px 4px rgba(255, 215, 0, 0.2);
-      font-weight: 600;
+      box-shadow: inset 0 2px 4px rgba(255, 215, 0, 0.3);
     }
 
-    .button-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 12px;
-      margin-top: 15px;
+    .button-row {
+      display: flex;
+      justify-content: space-between;
+      margin: 10px 0;
     }
 
     .button {
-      padding: 18px;
-      font-size: 1.5em;
+      width: 22%;
+      padding: 15px;
+      font-size: 1.2em;
       border: none;
-      border-radius: 12px;
+      border-radius: 8px;
       cursor: pointer;
-      transition: 0.3s;
-      text-align: center;
-      background: rgba(255, 255, 255, 0.2);
+      transition: background 0.3s, transform 0.1s;
+      box-shadow: 0 5px 15px rgba(255, 215, 0, 0.2);
+      background: #333;
       color: #ffd700;
-      font-weight: 600;
-      box-shadow: 0 4px 15px rgba(255, 215, 0, 0.15);
     }
 
     .button:hover {
-      background: rgba(255, 255, 255, 0.3);
+      background: #444;
     }
 
-    .operator { background: linear-gradient(135deg, #ffb300, #ff8c00); color: #fff; }
-    .equal { background: linear-gradient(135deg, #1db954, #17a74b); color: #fff; }
-    .clear { background: linear-gradient(135deg, #d32f2f, #b71c1c); color: #fff; }
+    .button:active {
+      transform: scale(0.95);
+    }
 
-    /* Theme Toggle */
-    #themeToggle {
-      position: absolute;
-      top: 20px;
-      right: 20px;
-      cursor: pointer;
-      font-size: 1.5em;
-      background: none;
-      border: none;
+    .operator {
+      background: #ff8c00;
+    }
+
+    .equal {
+      background: #4caf50;
+    }
+
+    .clear {
+      background: #d32f2f;
+    }
+
+    #faq, #blog {
+      max-width: 800px;
+      margin: 50px auto;
+      text-align: left;
+    }
+
+    .faq-item, .blog-post {
+      background: rgba(30, 30, 30, 0.9);
+      padding: 20px;
+      margin-bottom: 10px;
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(255, 215, 0, 0.1);
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      background: #111;
       color: #ffd700;
-      transition: 0.3s;
-    }
-
-    #themeToggle:hover {
-      transform: scale(1.1);
-    }
-
-    /* Dark Mode */
-    .dark-mode {
-      background: linear-gradient(135deg, #0d0d0d, #1a1a1a);
-    }
-
-    .dark-mode #calculator {
-      background: rgba(0, 0, 0, 0.6);
-      border: 1px solid rgba(255, 215, 0, 0.6);
-    }
-
-    .dark-mode #display {
-      background: rgba(255, 255, 255, 0.1);
-      color: #ffd700;
-    }
-
-    .dark-mode .button {
-      background: rgba(255, 255, 255, 0.1);
-      color: #ffd700;
-    }
-
-    .dark-mode .button:hover {
-      background: rgba(255, 255, 255, 0.2);
+      margin-top: 20px;
     }
   </style>
 </head>
 <body>
-  <button id="themeToggle">🌙</button>
+
   <div id="calculator">
     <input type="text" id="display" placeholder="0" disabled>
-    <div class="button-grid">
+    <div class="button-row">
       <button class="button clear" onclick="clearDisplay()">C</button>
+      <button class="button operator" onclick="appendValue('/')">÷</button>
+      <button class="button operator" onclick="appendValue('*')">×</button>
+      <button class="button operator" onclick="appendValue('-')">−</button>
+    </div>
+    <div class="button-row">
       <button class="button" onclick="appendValue('7')">7</button>
       <button class="button" onclick="appendValue('8')">8</button>
       <button class="button" onclick="appendValue('9')">9</button>
-
-      <button class="button operator" onclick="appendValue('/')">÷</button>
+      <button class="button operator" onclick="appendValue('+')">+</button>
+    </div>
+    <div class="button-row">
       <button class="button" onclick="appendValue('4')">4</button>
       <button class="button" onclick="appendValue('5')">5</button>
       <button class="button" onclick="appendValue('6')">6</button>
-
-      <button class="button operator" onclick="appendValue('*')">×</button>
-      <button class="button" onclick="appendValue('1')">1</button>
-      <button class="button" onclick="appendValue('2')">2</button>
-      <button class="button" onclick="appendValue('3')">3</button>
-
-      <button class="button operator" onclick="appendValue('-')">−</button>
-      <button class="button" onclick="appendValue('0')">0</button>
-      <button class="button" onclick="appendValue('.')">.</button>
       <button class="button equal" onclick="calculate()">=</button>
-
-      <button class="button operator" onclick="appendValue('+')">+</button>
     </div>
   </div>
+
+  <section id="blog">
+    <h2>Latest Blog Posts</h2>
+    <div class="blog-post">The Best Ways to Use a Calculator Efficiently</div>
+    <div class="blog-post">Why Premium Calculators Make a Difference</div>
+    <div class="blog-post">Top 5 Calculator Tips You Didn’t Know</div>
+  </section>
+
+  <section id="faq">
+    <h2>Frequently Asked Questions</h2>
+    <div class="faq-item"><strong>Q1: How do I use this calculator?</strong><br>A: Simply enter numbers using the buttons and press "=" to calculate.</div>
+    <div class="faq-item"><strong>Q2: Does it work on mobile?</strong><br>A: Yes! The calculator is fully responsive and works on all devices.</div>
+    <div class="faq-item"><strong>Q3: Is my data saved?</strong><br>A: No, this calculator does not store any of your calculations.</div>
+    <div class="faq-item"><strong>Q4: Can I use this offline?</strong><br>A: Yes, once the page is loaded, it works without an internet connection.</div>
+    <div class="faq-item"><strong>Q5: Does this have scientific functions?</strong><br>A: No, this is a simple calculator for quick calculations.</div>
+    <div class="faq-item"><strong>Q6: Is Patel Premium Calculator free?</strong><br>A: Yes! It is 100% free and always will be.</div>
+  </section>
+
+  <footer>
+    <p>&copy; 2025 Patel Premium Calculator. All rights reserved.</p>
+    <p><a href="https://ptl70.github.io/">Visit Our Website</a></p>
+  </footer>
 
   <script>
     function appendValue(val) {
@@ -161,16 +177,7 @@
         document.getElementById('display').value = "Error";
       }
     }
-
-    // Theme Toggle
-    document.getElementById('themeToggle').onclick = function() {
-      document.body.classList.toggle('dark-mode');
-      localStorage.setItem("theme", document.body.classList.contains('dark-mode') ? "dark" : "light");
-    };
-
-    if (localStorage.getItem("theme") === "dark") {
-      document.body.classList.add('dark-mode');
-    }
   </script>
+
 </body>
 </html>
