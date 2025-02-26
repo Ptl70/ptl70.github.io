@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Patel Image Compressor - The fastest offline image compression tool with individual and bulk download options.">
+    <meta name="keywords" content="image compressor, offline image compressor, Patel image compression, fast image compression, compress images online, image optimizer">
+    <meta name="author" content="Patel">
+    <title>Patel Image Compressor - Fast & Offline</title>
+    
+    <!-- Open Graph SEO -->
+    <meta property="og:title" content="Patel Image Compressor - Fast & Offline">
+    <meta property="og:description" content="Compress images instantly offline. Download individually or in bulk.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://patelimagecompressor.com">
+    <meta property="og:image" content="https://patelimagecompressor.com/logo.png">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background: #f4f4f4;
+            padding: 20px;
+        }
+        h1 {
+            color: #007bff;
+        }
+        .logo {
+            max-width: 150px;
+        }
+        input {
+            margin-bottom: 10px;
+            padding: 10px;
+            border: 2px solid #007bff;
+            border-radius: 5px;
+            outline: none;
+        }
+        #previewContainer {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-top: 10px;
+        }
+        .img-wrapper {
+            text-align: center;
+            margin: 10px;
+            padding: 10px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+        .preview-img, .compressed-img {
+            width: 200px;
+            border-radius: 10px;
+        }
+        .download-btn, #downloadAllBtn {
+            display: block;
+            margin-top: 5px;
+            padding: 8px 12px;
+            background: #28a745;
+            color: white;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .download-btn:hover, #downloadAllBtn:hover {
+            background: #218838;
+        }
+        #downloadAllBtn {
+            display: none;
+            margin-top: 20px;
+            background: #007bff;
+        }
+        .ad-slot {
+            width: 100%;
+            max-width: 728px;
+            height: 90px;
+            background: #ddd;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 20px auto;
+            font-size: 18px;
+            color: #333;
+            border-radius: 5px;
+        }
+        footer {
+            margin-top: 30px;
+            font-size: 14px;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Branding -->
+    <img src="logo.png" class="logo" alt="Patel Image Compressor Logo">
+    <h1>Patel Image Compressor</h1>
+    <p>Fastest offline image compression tool with individual & bulk download options.</p>
+
+    <!-- Ad Slot (Replace with Google AdSense code) -->
+    <div class="ad-slot">Ad Slot (728x90)</div>
+
+    <input type="file" id="imageInput" multiple accept="image/*">
+    <button id="downloadAllBtn">Download All</button>
+    
+    <div id="previewContainer"></div>
+
+    <!-- Another Ad Slot (for visibility after uploads) -->
+    <div class="ad-slot">Ad Slot (728x90)</div>
+
+    <footer>&copy; 2025 Patel Image Compressor. All rights reserved.</footer>
+
+    <script>
+        class ImageCompressor {
+            constructor(inputElement, previewContainer, downloadAllBtn) {
+                this.inputElement = inputElement;
+                this.previewContainer = previewContainer;
+                this.downloadAllBtn = downloadAllBtn;
+                this.compressedImages = [];
+                this.init();
+            }
+
+            init() {
+                this.inputElement.addEventListener('change', (event) => {
+                    this.previewContainer.innerHTML = '';
+                    this.compressedImages = [];
+                    const files = event.target.files;
+                    Array.from(files).forEach(file => {
+                        if (!file.type.startsWith('image/')) return;
+                        this.processImage(file);
+                    });
+                    this.updateDownloadAllButton();
+                });
+
+                this.downloadAllBtn.addEventListener('click', () => this.downloadAllAsZip());
+            }
+
+            processImage(file) {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    const img = new Image();
+                    img.src = e.target.result;
+                    img.className = "preview-img";
+                    img.onload = () => {
+                        this.compressImage(img, file);
+                    };
+                    this.createImageWrapper(img, file.name);
+                };
+                reader.readAsDataURL(file);
+            }
+
+            createImageWrapper(img, fileName) {
+                const wrapper = document.createElement('div');
+                wrapper.className = "img-wrapper";
+                wrapper.appendChild(img);
+                this.previewContainer.appendChild(wrapper);
+                return wrapper;
+            }
+
+            compressImage(img, file) {
+                const canvas = document.createElement('canvas');
+                const ctx = canvas.getContext('2d');
+
+                const maxWidth = 800;
+                const scaleSize = maxWidth / img.width;
+                canvas.width = maxWidth;
+                canvas.height = img.height * scaleSize;
+                ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+
+                canvas.toBlob(blob => {
+                    const compressedImgUrl = URL.createObjectURL(blob);
+                    this.compressedImages.push({ name: 'compressed_' + file.name, blob });
+                    this.displayCompressedImage(compressedImgUrl, file.name);
+                    this.updateDownloadAllButton();
+                }, 'image/jpeg', 0.7);
+            }
+
+            displayCompressedImage(url, fileName) {
+                const compressedImg = new Image();
+                compressedImg.src = url;
+                compressedImg.className = "compressed-img";
+
+                const downloadBtn = document.createElement('a');
+                downloadBtn.href = url;
+                downloadBtn.download = 'compressed_' + fileName;
+                downloadBtn.innerHTML = 'Download';
+                downloadBtn.className = "download-btn";
+
+                const wrapper = this.createImageWrapper(compressedImg, fileName);
+                wrapper.appendChild(downloadBtn);
+            }
+
+            updateDownloadAllButton() {
+                this.downloadAllBtn.style.display = this.compressedImages.length > 1 ? "inline-block" : "none";
+            }
+
+            async downloadAllAsZip() {
+                if (this.compressedImages.length === 0) return;
+
+                const zip = new JSZip();
+                const folder = zip.folder("Compressed_Images");
+
+                for (let img of this.compressedImages) {
+                    const response = await fetch(URL.createObjectURL(img.blob));
+                    const blob = await response.blob();
+                    folder.file(img.name, blob);
+                }
+
+                zip.generateAsync({ type: "blob" }).then(zipFile => {
+                    const link = document.createElement("a");
+                    link.href = URL.createObjectURL(zipFile);
+                    link.download = "Compressed_Images.zip";
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                });
+            }
+        }
+
+        new ImageCompressor(
+            document.getElementById('imageInput'),
+            document.getElementById('previewContainer'),
+            document.getElementById('downloadAllBtn')
+        );
+    </script>
+
+</body>
+</html>
