@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Patel Image Compressor - Adjustable quality & file size without resizing.">
-    <meta name="keywords" content="image compressor, offline image compressor, Patel image optimizer">
+    <meta name="keywords" content="image compressor, offline image optimizer, Patel compressor">
     <title>Patel Image Compressor</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
 
@@ -68,6 +68,20 @@
             border: 1px solid #ddd;
             padding: 10px;
             text-align: center;
+        }
+        .preview-img, .compressed-img {
+            width: 100px;
+            height: 200px;
+            object-fit: cover;
+        }
+        .download-btn {
+            display: block;
+            margin-top: 5px;
+            padding: 5px 10px;
+            background: #28a745;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
         }
         .ad-slot {
             width: 100%;
@@ -144,14 +158,9 @@
 
             init() {
                 this.dropZone.addEventListener('click', () => this.imageInput.click());
-                this.dropZone.addEventListener('dragover', (e) => {
-                    e.preventDefault();
-                    this.dropZone.style.background = '#e0f0ff';
-                });
-                this.dropZone.addEventListener('dragleave', () => this.dropZone.style.background = 'white');
+                this.dropZone.addEventListener('dragover', (e) => e.preventDefault());
                 this.dropZone.addEventListener('drop', (e) => {
                     e.preventDefault();
-                    this.dropZone.style.background = 'white';
                     this.handleFiles(e.dataTransfer.files);
                 });
                 this.imageInput.addEventListener('change', () => this.handleFiles(this.imageInput.files));
@@ -194,8 +203,7 @@
                             canvas.getContext('2d').drawImage(img, 0, 0);
                             
                             let quality = parseFloat(this.qualitySlider.value);
-                            let maxSize = parseInt(this.sizeInput.value) * 1024;
-                            let blob = await this.compressBlob(canvas, quality, maxSize);
+                            let blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/jpeg', quality));
 
                             const compressedImg = new Image();
                             compressedImg.src = URL.createObjectURL(blob);
@@ -214,17 +222,6 @@
                     };
                     reader.readAsDataURL(file);
                 });
-            }
-
-            async compressBlob(canvas, quality, maxSize) {
-                return new Promise(resolve => {
-                    canvas.toBlob(blob => resolve(blob), 'image/jpeg', quality);
-                });
-            }
-
-            clearImages() {
-                this.imageTableBody.innerHTML = '';
-                this.images = [];
             }
         }
 
