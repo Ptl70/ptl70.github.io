@@ -7,7 +7,7 @@
     <meta name="keywords" content="image compressor, offline image compressor, Patel image optimizer">
     <title>Patel Image Compressor</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
-    
+
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -37,39 +37,38 @@
             background: white;
             cursor: pointer;
         }
-        .image-container {
+        .buttons {
+            margin: 10px;
+        }
+        button {
+            margin: 5px;
+            padding: 8px 12px;
+            border: none;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        #compressBtn { background: #007bff; }
+        #clearBtn { background: #dc3545; }
+        #downloadAllBtn { background: #28a745; display: none; }
+        .table-container {
             display: flex;
             justify-content: center;
             flex-wrap: wrap;
             gap: 20px;
-        }
-        .image-box {
-            text-align: center;
-            background: white;
-            padding: 10px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-        }
-        .preview-img, .compressed-img {
-            width: 200px;
-            border-radius: 10px;
-        }
-        .download-btn, #downloadAllBtn {
-            display: block;
-            margin-top: 5px;
-            padding: 8px 12px;
-            background: #28a745;
-            color: white;
-            border-radius: 5px;
-            text-decoration: none;
-            cursor: pointer;
-        }
-        #downloadAllBtn {
-            display: none;
             margin-top: 20px;
-            background: #007bff;
         }
-        /* Ad Slots */
+        table {
+            border-collapse: collapse;
+            width: 80%;
+            max-width: 800px;
+            background: white;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: center;
+        }
         .ad-slot {
             width: 100%;
             max-width: 728px;
@@ -81,7 +80,6 @@
             font-size: 18px;
             color: #666;
         }
-        /* Responsive Design */
         @media (max-width: 768px) {
             .controls {
                 flex-direction: column;
@@ -98,7 +96,7 @@
     <h1>Patel Image Compressor</h1>
     <p>Adjust quality & file size without resizing.</p>
 
-    <div class="ad-slot">Ad Slot 1</div> <!-- Ad Slot -->
+    <div class="ad-slot">Ad Slot 1</div>
 
     <div class="controls">
         <label>Quality: <input type="range" id="qualitySlider" class="slider" min="0.1" max="1" step="0.1" value="0.7"></label>
@@ -107,21 +105,39 @@
 
     <div id="dropZone">Drag & Drop Images Here or Click to Upload</div>
     <input type="file" id="imageInput" multiple accept="image/*" style="display:none;">
-    <button id="downloadAllBtn">Download All</button>
+    
+    <div class="buttons">
+        <button id="compressBtn">Compress</button>
+        <button id="clearBtn">Clear</button>
+        <button id="downloadAllBtn">Download All</button>
+    </div>
 
-    <div class="image-container" id="previewContainer"></div>
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Original Image</th>
+                    <th>Compressed Image</th>
+                </tr>
+            </thead>
+            <tbody id="imageTableBody"></tbody>
+        </table>
+    </div>
 
-    <div class="ad-slot">Ad Slot 2</div> <!-- Ad Slot -->
+    <div class="ad-slot">Ad Slot 2</div>
 
     <script>
         class ImageCompressor {
             constructor() {
                 this.imageInput = document.getElementById('imageInput');
                 this.dropZone = document.getElementById('dropZone');
-                this.previewContainer = document.getElementById('previewContainer');
+                this.compressBtn = document.getElementById('compressBtn');
+                this.clearBtn = document.getElementById('clearBtn');
                 this.downloadAllBtn = document.getElementById('downloadAllBtn');
                 this.qualitySlider = document.getElementById('qualitySlider');
                 this.sizeInput = document.getElementById('sizeInput');
+                this.imageTableBody = document.getElementById('imageTableBody');
+                this.images = [];
                 this.compressedImages = [];
                 this.init();
             }
@@ -139,75 +155,76 @@
                     this.handleFiles(e.dataTransfer.files);
                 });
                 this.imageInput.addEventListener('change', () => this.handleFiles(this.imageInput.files));
-                this.qualitySlider.addEventListener('input', () => this.handleFiles(this.imageInput.files));
-                this.sizeInput.addEventListener('input', () => this.handleFiles(this.imageInput.files));
+                this.compressBtn.addEventListener('click', () => this.compressImages());
+                this.clearBtn.addEventListener('click', () => this.clearImages());
                 this.downloadAllBtn.addEventListener('click', () => this.downloadAllAsZip());
             }
 
             handleFiles(files) {
-                this.previewContainer.innerHTML = '';
-                this.compressedImages = [];
-                Array.from(files).forEach(file => {
-                    if (!file.type.startsWith('image/')) return;
-                    this.processImage(file);
-                });
-                this.updateDownloadAllButton();
+                this.imageTableBody.innerHTML = '';
+                this.images = Array.from(files).filter(file => file.type.startsWith('image/'));
+                this.images.forEach(file => this.displayOriginalImage(file));
             }
 
-            processImage(file) {
+            displayOriginalImage(file) {
                 const reader = new FileReader();
                 reader.onload = (e) => {
                     const img = new Image();
                     img.src = e.target.result;
                     img.className = "preview-img";
-                    img.onload = () => this.compressImage(img, file);
-                    this.createImageBox(img, file.name, "Original");
+                    const row = this.imageTableBody.insertRow();
+                    row.insertCell(0).appendChild(img);
+                    row.insertCell(1).innerText = "Not Compressed Yet";
                 };
                 reader.readAsDataURL(file);
             }
 
-            createImageBox(img, fileName, label) {
-                const box = document.createElement('div');
-                box.className = "image-box";
-                box.innerHTML = `<p>${label}</p>`;
-                box.appendChild(img);
-                this.previewContainer.appendChild(box);
-                return box;
-            }
+            async compressImages() {
+                this.compressedImages = [];
+                this.imageTableBody.querySelectorAll("tr").forEach((row, index) => {
+                    const file = this.images[index];
+                    const reader = new FileReader();
+                    reader.onload = (e) => {
+                        const img = new Image();
+                        img.src = e.target.result;
+                        img.onload = async () => {
+                            const canvas = document.createElement('canvas');
+                            canvas.width = img.width;
+                            canvas.height = img.height;
+                            canvas.getContext('2d').drawImage(img, 0, 0);
+                            
+                            let quality = parseFloat(this.qualitySlider.value);
+                            let maxSize = parseInt(this.sizeInput.value) * 1024;
+                            let blob = await this.compressBlob(canvas, quality, maxSize);
 
-            compressImage(img, file) {
-                const canvas = document.createElement('canvas');
-                const ctx = canvas.getContext('2d');
+                            const compressedImg = new Image();
+                            compressedImg.src = URL.createObjectURL(blob);
+                            compressedImg.className = "compressed-img";
 
-                canvas.width = img.width;
-                canvas.height = img.height;
-                ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+                            const downloadBtn = document.createElement('a');
+                            downloadBtn.href = compressedImg.src;
+                            downloadBtn.download = 'compressed_' + file.name;
+                            downloadBtn.innerText = "Download";
+                            downloadBtn.className = "download-btn";
 
-                let quality = parseFloat(this.qualitySlider.value);
-                let maxSize = parseInt(this.sizeInput.value) * 1024;
-
-                const compressAndCheckSize = (quality) => {
-                    return new Promise(resolve => {
-                        canvas.toBlob(blob => {
-                            if (blob.size <= maxSize || quality <= 0.1) {
-                                resolve({ blob, quality });
-                            } else {
-                                resolve(compressAndCheckSize(quality - 0.1));
-                            }
-                        }, 'image/jpeg', quality);
-                    });
-                };
-
-                compressAndCheckSize(quality).then(({ blob }) => {
-                    const url = URL.createObjectURL(blob);
-                    this.compressedImages.push({ name: 'compressed_' + file.name, blob });
-                    this.displayCompressedImage(url, file.name);
-                    this.updateDownloadAllButton();
+                            row.cells[1].innerHTML = "";
+                            row.cells[1].appendChild(compressedImg);
+                            row.cells[1].appendChild(downloadBtn);
+                        };
+                    };
+                    reader.readAsDataURL(file);
                 });
             }
 
-            updateDownloadAllButton() {
-                this.downloadAllBtn.style.display = this.compressedImages.length > 1 ? "inline-block" : "none";
+            async compressBlob(canvas, quality, maxSize) {
+                return new Promise(resolve => {
+                    canvas.toBlob(blob => resolve(blob), 'image/jpeg', quality);
+                });
+            }
+
+            clearImages() {
+                this.imageTableBody.innerHTML = '';
+                this.images = [];
             }
         }
 
