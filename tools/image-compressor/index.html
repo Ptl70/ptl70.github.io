@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Compress images offline with Patel Image Compressor. Reduce PNG, JPG, and WebP file size without resizing. 100% free and fast.">
-    <meta name="keywords" content="image compressor, offline image compressor, compress images, reduce file size, optimize PNG, WebP, JPG compressor">
     <title>Patel Image Compressor - Compress Images Offline</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
 
@@ -23,11 +22,8 @@
         table { width: 100%; border-collapse: collapse; background: white; }
         th, td { border: 1px solid #ddd; padding: 10px; text-align: center; }
         .preview-img, .compressed-img { width: 100px; height: 200px; object-fit: cover; }
-        .faq { margin-top: 30px; }
-        .faq details { background: #fff; padding: 10px; border-radius: 5px; margin-bottom: 10px; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); }
-        .faq summary { font-weight: bold; cursor: pointer; color: #007bff; }
-        .blog-card { background: #fff; padding: 15px; margin-bottom: 15px; border-radius: 5px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); }
-        .blog-card h3 { margin-bottom: 10px; }
+        .faq details { background: #fff; padding: 10px; border-radius: 5px; margin-bottom: 10px; }
+        .blog-card { background: #fff; padding: 15px; margin-bottom: 15px; border-radius: 5px; }
         .footer { background: #333; color: white; padding: 20px; text-align: center; margin-top: 30px; }
         @media (max-width: 768px) {
             .container { flex-direction: column; }
@@ -76,21 +72,87 @@
         </div>
     </div>
 
-    <div class="faq">
-        <h2>Frequently Asked Questions</h2>
-        <details><summary>Does Patel Image Compressor work offline?</summary><p>Yes, it works 100% offline.</p></details>
-        <details><summary>What formats are supported?</summary><p>PNG, JPG, and WebP.</p></details>
-        <details><summary>Is this tool free?</summary><p>Yes, it's completely free.</p></details>
-        <details><summary>Does it reduce image quality?</summary><p>No, it maintains high quality.</p></details>
-        <details><summary>How can I download all images?</summary><p>Click the "Download All" button.</p></details>
-    </div>
-
     <footer class="footer">
         <p>&copy; 2025 Patel Image Compressor. All Rights Reserved.</p>
     </footer>
 
     <script>
         document.getElementById('dropZone').addEventListener('click', () => document.getElementById('imageInput').click());
+
+        document.getElementById('imageInput').addEventListener('change', handleFiles);
+        document.getElementById('compressBtn').addEventListener('click', compressImages);
+        document.getElementById('clearBtn').addEventListener('click', clearImages);
+
+        let files = [];
+        function handleFiles(event) {
+            files = Array.from(event.target.files);
+            displayImages();
+        }
+
+        function displayImages() {
+            let tableBody = document.getElementById("imageTableBody");
+            tableBody.innerHTML = "";
+            files.forEach((file, index) => {
+                let reader = new FileReader();
+                reader.onload = function (e) {
+                    let row = `<tr>
+                        <td><img src="${e.target.result}" class="preview-img"></td>
+                        <td id="compressed-${index}"><button onclick="compressImage(${index})">Compress</button></td>
+                    </tr>`;
+                    tableBody.innerHTML += row;
+                };
+                reader.readAsDataURL(file);
+            });
+        }
+
+        function compressImage(index) {
+            let file = files[index];
+            let img = new Image();
+            img.src = URL.createObjectURL(file);
+            img.onload = function () {
+                let canvas = document.createElement("canvas");
+                let ctx = canvas.getContext("2d");
+                canvas.width = img.width;
+                canvas.height = img.height;
+                ctx.drawImage(img, 0, 0, img.width, img.height);
+                
+                let compressedData = canvas.toDataURL("image/jpeg", 0.6);
+                let compressedCell = document.getElementById(`compressed-${index}`);
+                compressedCell.innerHTML = `<img src="${compressedData}" class="compressed-img">
+                                            <a href="${compressedData}" download="compressed-${file.name}" class="download-btn">Download</a>`;
+            };
+        }
+
+        function compressImages() {
+            files.forEach((_, index) => compressImage(index));
+            document.getElementById("downloadAllBtn").style.display = "block";
+        }
+
+        function clearImages() {
+            files = [];
+            document.getElementById("imageTableBody").innerHTML = "";
+            document.getElementById("downloadAllBtn").style.display = "none";
+        }
+
+        document.getElementById("downloadAllBtn").addEventListener("click", () => {
+            let zip = new JSZip();
+            files.forEach((file, index) => {
+                let compressedCell = document.getElementById(`compressed-${index}`);
+                if (compressedCell) {
+                    let img = compressedCell.querySelector("img");
+                    if (img) {
+                        let imgData = img.src.split(",")[1];
+                        zip.file(`compressed-${file.name}.jpg`, imgData, { base64: true });
+                    }
+                }
+            });
+            zip.generateAsync({ type: "blob" }).then((content) => {
+                let a = document.createElement("a");
+                a.href = URL.createObjectURL(content);
+                a.download = "compressed_images.zip";
+                a.click();
+            });
+        });
     </script>
 
 </body>
